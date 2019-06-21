@@ -15,17 +15,17 @@
 
 
 
-<meta name="description" content="SpringMVC中的处理器适配器器就使用了适配器模式,有时间会贴上处理器适配器的代码，学习研究">
+<meta name="description" content="装饰者模型的目的是为了在不改变原有类的基础上拓展其功能。其实我对装饰者模型最大的困惑就是，为什么不用继承来实现呢？使用super方法代码多简单！本质上还是没有掌握装饰者模型的结构，所以整理一下。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring中的适配器模式">
-<meta property="og:url" content="http://yoursite.com/2019/06/17/适配器模式/index.html">
+<meta property="og:title" content="Spring中的装饰者模型">
+<meta property="og:url" content="http://yoursite.com/2019/03/17/装饰者模型代码/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="SpringMVC中的处理器适配器器就使用了适配器模式,有时间会贴上处理器适配器的代码，学习研究">
+<meta property="og:description" content="装饰者模型的目的是为了在不改变原有类的基础上拓展其功能。其实我对装饰者模型最大的困惑就是，为什么不用继承来实现呢？使用super方法代码多简单！本质上还是没有掌握装饰者模型的结构，所以整理一下。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-21T01:45:45.252Z">
+<meta property="og:updated_time" content="2019-06-21T02:17:16.671Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring中的适配器模式">
-<meta name="twitter:description" content="SpringMVC中的处理器适配器器就使用了适配器模式,有时间会贴上处理器适配器的代码，学习研究">
+<meta name="twitter:title" content="Spring中的装饰者模型">
+<meta name="twitter:description" content="装饰者模型的目的是为了在不改变原有类的基础上拓展其功能。其实我对装饰者模型最大的困惑就是，为什么不用继承来实现呢？使用super方法代码多简单！本质上还是没有掌握装饰者模型的结构，所以整理一下。">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -55,7 +55,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Spring中的适配器模式 | Hexo</title>
+<title>Spring中的装饰者模型 | Hexo</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -261,11 +261,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-适配器模式" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-装饰者模型代码" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/06/17/适配器模式/" class="article-date">
-      <time datetime="2019-06-17T08:52:28.000Z" itemprop="datePublished">2019-06-17</time>
+      <a href="/2019/03/17/装饰者模型代码/" class="article-date">
+      <time datetime="2019-03-17T08:52:28.000Z" itemprop="datePublished">2019-03-17</time>
 </a>
 
 
@@ -280,7 +280,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Spring中的适配器模式
+      Spring中的装饰者模型
     </h1>
   
 
@@ -297,44 +297,28 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><strong>SpringMVC中的处理器适配器器就使用了适配器模式,有时间会贴上处理器适配器的代码，学习研究</strong></p>
+        <p><strong>装饰者模型的目的是为了在不改变原有类的基础上拓展其功能。</strong><br><strong>其实我对装饰者模型最大的困惑就是，为什么不用继承来实现呢？使用super方法代码多简单！</strong><br><strong>本质上还是没有掌握装饰者模型的结构，所以整理一下。</strong></p>
 <a id="more"></a>
 
-<h4 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h4><h5 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h5><p>在SpringMVC中使用了适配器模式，适配器模式就是让一个类通过适配器做到它不能做的事情。代码的体现其实是遍历与多态（多态是个牛逼的东西）</p>
-<h5 id="二、测试代码"><a href="#二、测试代码" class="headerlink" title="二、测试代码"></a>二、测试代码</h5><ul>
-<li>Mp3播放接口</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Mp3Media</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">(String fileStyle)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="一、测试代码"><a href="#一、测试代码" class="headerlink" title="一、测试代码"></a>一、测试代码</h4><p>1、写一个接口person</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pulibc <span class="class"><span class="keyword">interface</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>实现Mp3接口的类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mp3</span> <span class="keyword">implements</span> <span class="title">Mp3Media</span></span>&#123;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">(String fileStyle)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">"MP4"</span>.equals(fileStyle) || <span class="string">"mkv"</span>.equals(fileStyle))&#123;</span><br><span class="line">            <span class="comment">//也就是如果要进行的是mp3不能进行的方法时，new一个适配器</span></span><br><span class="line">            <span class="comment">//适配器在内部通过多态动态绑定要适配的对象</span></span><br><span class="line">            Adaptor adaptor = <span class="keyword">new</span> Adaptor(String fileStyle);</span><br><span class="line">            adaptor.play(fileStyle);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(fileStyle.equals(<span class="string">"MP3"</span>))&#123;</span><br><span class="line">            syso(<span class="string">"播放"</span>+fileStyle);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		   syso(<span class="string">"不支持当前格式"</span>)；</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、写一个person实现类man</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">implements</span> <span class="title">Person</span></span>&#123;</span><br><span class="line"> 	<span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		system.out.println(<span class="string">"good"</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>AdvanceMedia播放接口–可以播放mp4和mkv</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdvanceMedia</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">playMp4</span><span class="params">(String fileStyle)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">playMkv</span><span class="params">(String fileStyle)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、写一个装饰类Decorator接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">implements</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Person person;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerson</span><span class="params">(Person person)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.person = person;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">        person.eat();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>实现AdvanceMedia接口的Mp4类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mp4</span> <span class="keyword">implements</span> <span class="title">Mp4Media</span></span>&#123;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">playMp4</span><span class="params">(String String fileStyle)</span></span>&#123;</span><br><span class="line">		syso(<span class="string">"播放"</span>+fileStyle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、写一个DecoratorA继承Decorator</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DecoratorA</span> <span class="keyword">extends</span> <span class="title">Decorator</span></span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.eat();</span><br><span class="line">		<span class="comment">//增加要拓展的功能</span></span><br><span class="line">		dosome extends work;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li><p>实现AdvanceMedia接口的Mkv类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mkv</span> <span class="keyword">implements</span> <span class="title">Mp4Media</span></span>&#123;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">playMkv</span><span class="params">(String String fileStyle)</span></span>&#123;</span><br><span class="line">		syso(<span class="string">"播放"</span>+fileStyle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>适配器</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adaptor</span> <span class="keyword">implements</span> <span class="title">Mp3Media</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> AdvanceMedia advanceMedia;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Adaptor</span><span class="params">(String fileStyle)</span></span>&#123;</span><br><span class="line">        <span class="comment">//动态绑定，多态</span></span><br><span class="line">		<span class="keyword">if</span>(fileStyle.equals(<span class="string">"mp4"</span>))&#123;</span><br><span class="line">			advanceMedia = <span class="keyword">new</span> Mp4();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(fileStyle.equals(<span class="string">"mkv"</span>))&#123;</span><br><span class="line">             advanceMedia = <span class="keyword">new</span> Mkv();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">(String fileStyle)</span></span>&#123;</span><br><span class="line">        advanceMedia.play(fileStyle)   </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5、写一个main方法测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">	DecoratorA da = <span class="keyword">new</span> DecoratorA();</span><br><span class="line">	Person p = <span class="keyword">new</span> Man();</span><br><span class="line">	da.setPerson(p);</span><br><span class="line">	da.eat();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>Test demo</li>
+<h4 id="二、说明"><a href="#二、说明" class="headerlink" title="二、说明"></a>二、说明</h4><ul>
+<li>如果还有一个Person类的实现是woman，那么要进行拓展他的功能，就要再写一个类继承women类，这必然会导致继承体系的臃肿</li>
+<li>如果使用装饰者模式，完全不需要，利用Decorator的Person多态，便可以进行拓展。</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Mp3Media Mp3Media = <span class="keyword">new</span> Mp3();</span><br><span class="line"></span><br><span class="line">        audioPlayer.play(<span class="string">"mp3"</span>);<span class="comment">//输出：播放MP3</span></span><br><span class="line">        audioPlayer.play(<span class="string">"mp4"</span>);<span class="comment">//输出：播放MP4</span></span><br><span class="line">        audioPlayer.play(<span class="string">"mkv"</span>);<span class="comment">//输出：播放Mkv</span></span><br><span class="line">        audioPlayer.play(<span class="string">"avi"</span>, <span class="string">"mind me.avi"</span>);<span class="comment">//输出：不支持当前格式</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
@@ -347,15 +331,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/06/17/单例模式/">
-                    Spring中的单例模式
+                <a href="/2019/04/17/适配器模式/">
+                    Spring中的适配器模式
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/06/17/代理模式/">
-                    Spring中的代理模式
+                <a href="/2019/03/17/单例模式/">
+                    Spring中的单例模式
                 </a>
             </div>
         
@@ -367,7 +351,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#适配器模式"><span class="toc-number">1.</span> <span class="toc-text">适配器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、概述"><span class="toc-number">1.1.</span> <span class="toc-text">一、概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二、测试代码"><span class="toc-number">1.2.</span> <span class="toc-text">二、测试代码</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、测试代码"><span class="toc-number">1.</span> <span class="toc-text">一、测试代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、说明"><span class="toc-number">2.</span> <span class="toc-text">二、说明</span></a></li></ol>
         
     </div>
     <style>
@@ -421,7 +405,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/06/17/单例模式/" title="上一篇: Spring中的单例模式">
+            <a href="/2019/04/17/适配器模式/" title="上一篇: Spring中的适配器模式">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -429,13 +413,13 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/06/17/代理模式/" title="下一篇: Spring中的代理模式">
+            <a href="/2019/03/17/单例模式/" title="下一篇: Spring中的单例模式">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/装饰者模型代码/">Spring中的装饰者模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/单例模式/">Spring中的单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/适配器模式/">Spring中的适配器模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/代理模式/">Spring中的代理模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/16/resume/">个人信息</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/04/17/适配器模式/">Spring中的适配器模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/17/装饰者模型代码/">Spring中的装饰者模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/17/单例模式/">Spring中的单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/代理模式/">Spring中的代理模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/resume/">个人信息</a></li></ul>
 
 
 

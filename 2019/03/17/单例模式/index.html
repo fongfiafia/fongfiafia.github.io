@@ -15,17 +15,17 @@
 
 
 
-<meta name="description" content="装饰者模型的目的是为了在不改变原有类的基础上拓展其功能。其实我对装饰者模型最大的困惑就是，为什么不用继承来实现呢？使用super方法代码多简单！本质上还是没有掌握装饰者模型的结构，所以整理一下。">
+<meta name="description" content="Spring中的Service、controller、dao都是单例模式，值得记录学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring中的装饰者模型">
-<meta property="og:url" content="http://yoursite.com/2019/06/17/装饰者模型代码/index.html">
+<meta property="og:title" content="Spring中的单例模式">
+<meta property="og:url" content="http://yoursite.com/2019/03/17/单例模式/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="装饰者模型的目的是为了在不改变原有类的基础上拓展其功能。其实我对装饰者模型最大的困惑就是，为什么不用继承来实现呢？使用super方法代码多简单！本质上还是没有掌握装饰者模型的结构，所以整理一下。">
+<meta property="og:description" content="Spring中的Service、controller、dao都是单例模式，值得记录学习">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-21T01:45:56.242Z">
+<meta property="og:updated_time" content="2019-06-21T02:16:55.521Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring中的装饰者模型">
-<meta name="twitter:description" content="装饰者模型的目的是为了在不改变原有类的基础上拓展其功能。其实我对装饰者模型最大的困惑就是，为什么不用继承来实现呢？使用super方法代码多简单！本质上还是没有掌握装饰者模型的结构，所以整理一下。">
+<meta name="twitter:title" content="Spring中的单例模式">
+<meta name="twitter:description" content="Spring中的Service、controller、dao都是单例模式，值得记录学习">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -55,7 +55,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Spring中的装饰者模型 | Hexo</title>
+<title>Spring中的单例模式 | Hexo</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -261,11 +261,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-装饰者模型代码" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-单例模式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/06/17/装饰者模型代码/" class="article-date">
-      <time datetime="2019-06-17T08:52:28.000Z" itemprop="datePublished">2019-06-17</time>
+      <a href="/2019/03/17/单例模式/" class="article-date">
+      <time datetime="2019-03-17T08:52:28.000Z" itemprop="datePublished">2019-03-17</time>
 </a>
 
 
@@ -280,7 +280,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Spring中的装饰者模型
+      Spring中的单例模式
     </h1>
   
 
@@ -297,27 +297,23 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><strong>装饰者模型的目的是为了在不改变原有类的基础上拓展其功能。</strong><br><strong>其实我对装饰者模型最大的困惑就是，为什么不用继承来实现呢？使用super方法代码多简单！</strong><br><strong>本质上还是没有掌握装饰者模型的结构，所以整理一下。</strong></p>
+        <p><strong>Spring中的Service、controller、dao都是单例模式，值得记录学习</strong></p>
 <a id="more"></a>
 
-<h4 id="一、测试代码"><a href="#一、测试代码" class="headerlink" title="一、测试代码"></a>一、测试代码</h4><p>1、写一个接口person</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pulibc <span class="class"><span class="keyword">interface</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h4><h5 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h5><p>单例模式提供获取目标实例对象的方法，并且这个实例对象在一个进程中是多线程共享的，因为他只有一个。Spring框架中的controller、Service、Dao就是单例模式。</p>
+<ul>
+<li>优点是减少了内存开支</li>
+<li>缺点是有线程安全问题,但一个对象还没被创建时，就被多个线程共享，那么就会创建两个实例，这不符合单例模式的思想，办法加锁以及设置volatite关键字</li>
+</ul>
+<h5 id="二、测试demo"><a href="#二、测试demo" class="headerlink" title="二、测试demo"></a>二、测试demo</h5><ul>
+<li><p>懒汉式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonLazy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonLazy singletonLazy;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//构造方法私有，不提供new的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SingletonLazy</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//获取实例的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> SingletonLazy <span class="title">getSingletonLazy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(singletonLazy==<span class="keyword">null</span>)&#123;</span><br><span class="line">            singletonLazy = <span class="keyword">new</span> SingletonLazy();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singletonLazy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>饱汉式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonFull</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不管怎么样先创建出来一个对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonFull singletonFull = <span class="keyword">new</span> SingletonFull();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SingletonFull</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> SingletonFull <span class="title">getSingletonFull</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> singletonFull;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>2、写一个person实现类man</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">implements</span> <span class="title">Person</span></span>&#123;</span><br><span class="line"> 	<span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		system.out.println(<span class="string">"good"</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
-<p>3、写一个装饰类Decorator接口</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">implements</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Person person;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerson</span><span class="params">(Person person)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.person = person;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">        person.eat();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>4、写一个DecoratorA继承Decorator</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DecoratorA</span> <span class="keyword">extends</span> <span class="title">Decorator</span></span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.eat();</span><br><span class="line">		<span class="comment">//增加要拓展的功能</span></span><br><span class="line">		dosome extends work;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>5、写一个main方法测试</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">	DecoratorA da = <span class="keyword">new</span> DecoratorA();</span><br><span class="line">	Person p = <span class="keyword">new</span> Man();</span><br><span class="line">	da.setPerson(p);</span><br><span class="line">	da.eat();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="二、说明"><a href="#二、说明" class="headerlink" title="二、说明"></a>二、说明</h4><ul>
-<li>如果还有一个Person类的实现是woman，那么要进行拓展他的功能，就要再写一个类继承women类，这必然会导致继承体系的臃肿</li>
-<li>如果使用装饰者模式，完全不需要，利用Decorator的Person多态，便可以进行拓展。</li>
+</li>
 </ul>
 
       
@@ -330,10 +326,16 @@
 
     <nav id="article-nav">
         
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/03/17/装饰者模型代码/">
+                    Spring中的装饰者模型
+                </a>
+            </div>
+        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/06/17/单例模式/">
-                    Spring中的单例模式
+                <a href="/2019/02/17/代理模式/">
+                    Spring中的代理模式
                 </a>
             </div>
         
@@ -345,7 +347,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、测试代码"><span class="toc-number">1.</span> <span class="toc-text">一、测试代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、说明"><span class="toc-number">2.</span> <span class="toc-text">二、说明</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#单例模式"><span class="toc-number">1.</span> <span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、概述"><span class="toc-number">1.1.</span> <span class="toc-text">一、概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二、测试demo"><span class="toc-number">1.2.</span> <span class="toc-text">二、测试demo</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -399,19 +401,21 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2019/03/17/装饰者模型代码/" title="上一篇: Spring中的装饰者模型">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/06/17/单例模式/" title="下一篇: Spring中的单例模式">
+            <a href="/2019/02/17/代理模式/" title="下一篇: Spring中的代理模式">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/装饰者模型代码/">Spring中的装饰者模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/单例模式/">Spring中的单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/适配器模式/">Spring中的适配器模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/代理模式/">Spring中的代理模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/16/resume/">个人信息</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/04/17/适配器模式/">Spring中的适配器模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/17/装饰者模型代码/">Spring中的装饰者模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/17/单例模式/">Spring中的单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/代理模式/">Spring中的代理模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/resume/">个人信息</a></li></ul>
 
 
 
