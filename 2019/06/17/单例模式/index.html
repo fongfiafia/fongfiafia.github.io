@@ -15,13 +15,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2019/06/index.html">
+<meta name="description" content="Spring中的Service、controller、dao都是单例模式，值得记录学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring中的单例模式">
+<meta property="og:url" content="http://yoursite.com/2019/06/17/单例模式/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring中的Service、controller、dao都是单例模式，值得记录学习">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-21T01:47:00.311Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Spring中的单例模式">
+<meta name="twitter:description" content="Spring中的Service、controller、dao都是单例模式，值得记录学习">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -51,7 +55,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Archives: 2019/6 | Hexo</title>
+<title>Spring中的单例模式 | Hexo</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -61,8 +65,8 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
-        isArchive: true,
+        isPost: true,
+        isArchive: false,
         isTag: false,
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
@@ -257,168 +261,168 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-单例模式" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2019/06/17/单例模式/" class="article-date">
+      <time datetime="2019-06-17T08:52:28.000Z" itemprop="datePublished">2019-06-17</time>
+</a>
+
+
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spring中的单例模式
+    </h1>
+  
+
+      </header>
       
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2019/06/17/装饰者模型代码/" class="archive-article-date">
-      <time datetime="2019-06-17T08:52:28.000Z" itemprop="datePublished">06-17</time>
-</a>
-
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/装饰者模型代码/">Spring中的装饰者模型</a>
-    </h1>
-  
-
-        <div class="article-info info-on-archive">
+    <div class="article-entry" itemprop="articleBody">
+      
           
+        <p><strong>Spring中的Service、controller、dao都是单例模式，值得记录学习</strong></p>
+<a id="more"></a>
 
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<h4 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h4><h5 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h5><p>单例模式提供获取目标实例对象的方法，并且这个实例对象在一个进程中是多线程共享的，因为他只有一个。Spring框架中的controller、Service、Dao就是单例模式。</p>
+<ul>
+<li>优点是减少了内存开支</li>
+<li>缺点是有线程安全问题,但一个对象还没被创建时，就被多个线程共享，那么就会创建两个实例，这不符合单例模式的思想，办法加锁以及设置volatite关键字</li>
+</ul>
+<h5 id="二、测试demo"><a href="#二、测试demo" class="headerlink" title="二、测试demo"></a>二、测试demo</h5><ul>
+<li><p>懒汉式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonLazy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonLazy singletonLazy;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//构造方法私有，不提供new的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SingletonLazy</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//获取实例的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> SingletonLazy <span class="title">getSingletonLazy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(singletonLazy==<span class="keyword">null</span>)&#123;</span><br><span class="line">            singletonLazy = <span class="keyword">new</span> SingletonLazy();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singletonLazy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>饱汉式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonFull</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不管怎么样先创建出来一个对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonFull singletonFull = <span class="keyword">new</span> SingletonFull();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SingletonFull</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> SingletonFull <span class="title">getSingletonFull</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> singletonFull;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+
+      
+    </div>
+    
   </div>
+  
+    
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/06/17/装饰者模型代码/">
+                    Spring中的装饰者模型
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/06/17/适配器模式/">
+                    Spring中的适配器模式
+                </a>
+            </div>
+        
+    </nav>
+
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2019/06/17/单例模式/" class="archive-article-date">
-      <time datetime="2019-06-17T08:52:28.000Z" itemprop="datePublished">06-17</time>
-</a>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#单例模式"><span class="toc-number">1.</span> <span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、概述"><span class="toc-number">1.1.</span> <span class="toc-text">一、概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二、测试demo"><span class="toc-number">1.2.</span> <span class="toc-text">二、测试demo</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
 
 
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/单例模式/">Spring中的单例模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-archive">
-          
-
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2019/06/17/适配器模式/" class="archive-article-date">
-      <time datetime="2019-06-17T08:52:28.000Z" itemprop="datePublished">06-17</time>
-</a>
 
 
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/适配器模式/">Spring中的适配器模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-archive">
-          
-
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2019/06/17/代理模式/" class="archive-article-date">
-      <time datetime="2019-06-17T08:52:28.000Z" itemprop="datePublished">06-17</time>
-</a>
-
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/代理模式/">Spring中的代理模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-archive">
-          
-
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2019/06/16/resume/" class="archive-article-date">
-      <time datetime="2019-06-16T01:00:34.022Z" itemprop="datePublished">06-16</time>
-</a>
-
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/16/resume/">个人信息</a>
-    </h1>
-  
-
-        <div class="article-info info-on-archive">
-          
-
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
     
 
+
+
+  
+  <!-- ������City�氲װ���� -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NDc0OS8yMTI3MA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>Ϊ����ʹ�����������۹����뼤��JavaScript</noscript>
+</div>
+<!-- City�氲װ��������� -->
+  
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2019/06/17/装饰者模型代码/" title="上一篇: Spring中的装饰者模型">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/06/17/适配器模式/" title="下一篇: Spring中的适配器模式">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/装饰者模型代码/">Spring中的装饰者模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/单例模式/">Spring中的单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/适配器模式/">Spring中的适配器模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/17/代理模式/">Spring中的代理模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/16/resume/">个人信息</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
