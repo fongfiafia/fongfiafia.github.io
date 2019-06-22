@@ -22,7 +22,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Spring中的Service、controller、dao都是单例模式，值得记录学习">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-22T14:52:05.008Z">
+<meta property="og:updated_time" content="2019-06-22T15:08:57.427Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring中的单例模式">
 <meta name="twitter:description" content="Spring中的Service、controller、dao都是单例模式，值得记录学习">
@@ -310,7 +310,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonLazy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonLazy singletonLazy;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//构造方法私有，不提供new的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SingletonLazy</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//获取实例的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> SingletonLazy <span class="title">getSingletonLazy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(singletonLazy==<span class="keyword">null</span>)&#123;</span><br><span class="line">            singletonLazy = <span class="keyword">new</span> SingletonLazy();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singletonLazy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>饱汉式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonFull</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不管怎么样先创建出来一个对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonFull singletonFull = <span class="keyword">new</span> SingletonFull();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SingletonFull</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> SingletonFull <span class="title">getSingletonFull</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> singletonFull;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonFull</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不管怎么样先创建出来一个对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonFull singletonFull = <span class="keyword">new</span> SingletonFull();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SingletonFull</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> SingletonFull <span class="title">getSingletonFull</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> singletonFull;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 </li>
@@ -327,15 +327,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/03/17/装饰者模型代码/">
-                    Spring中的装饰者模型
+                <a href="/2019/04/17/适配器模式/">
+                    Spring中的适配器模式
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/02/17/代理模式/">
-                    Spring中的代理模式
+                <a href="/2019/03/17/装饰者模型代码/">
+                    Spring中的装饰者模型
                 </a>
             </div>
         
@@ -401,7 +401,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/03/17/装饰者模型代码/" title="上一篇: Spring中的装饰者模型">
+            <a href="/2019/04/17/适配器模式/" title="上一篇: Spring中的适配器模式">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -409,13 +409,13 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/02/17/代理模式/" title="下一篇: Spring中的代理模式">
+            <a href="/2019/03/17/装饰者模型代码/" title="下一篇: Spring中的装饰者模型">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/05/23/常见排序算法/">常见排序算法默写</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/17/适配器模式/">Spring中的适配器模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/17/装饰者模型代码/">Spring中的装饰者模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/17/单例模式/">Spring中的单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/代理模式/">Spring中的代理模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/resume/">个人信息</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/05/23/常见排序算法/">常见排序算法默写</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/17/适配器模式/">Spring中的适配器模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/17/单例模式/">Spring中的单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/17/装饰者模型代码/">Spring中的装饰者模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/代理模式/">Spring中的代理模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/resume/">个人信息</a></li></ul>
 
 
 
